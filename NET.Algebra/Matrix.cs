@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 
-namespace NET.Algebra
+namespace Algebra
 {
     public class Matrix
     {
@@ -9,8 +10,7 @@ namespace NET.Algebra
         public Matrix(double[] array)
         {
             this.values = new double[1, array.Length];
-            for (int i = 0; i < this.NumCols; i++)
-            {
+            for (int i = 0; i < this.NumCols; i++) {
                 this[0, i] = array[i];
             }
         }
@@ -18,8 +18,7 @@ namespace NET.Algebra
         public Matrix(int[] array)
         {
             this.values = new double[1, array.Length];
-            for (int i = 0; i < this.NumCols; i++)
-            {
+            for (int i = 0; i < this.NumCols; i++) {
                 this[0, i] = array[i];
             }
         }
@@ -32,10 +31,8 @@ namespace NET.Algebra
         public Matrix(int[,] array)
         {
             this.values = new double[array.GetLength(0), array.GetLength(1)];
-            for (int y = 0; y < this.NumRows; y++)
-            {
-                for (int x = 0; x < this.NumCols; x++)
-                {
+            for (int y = 0; y < this.NumRows; y++) {
+                for (int x = 0; x < this.NumCols; x++) {
                     this[y, x] = array[y, x];
                 }
             }
@@ -50,8 +47,7 @@ namespace NET.Algebra
         /// <summary>
         /// An indexer for the matrix.
         /// </summary>
-        public double this[int row, int col]
-        {
+        public double this[int row, int col] {
             get { return this.values[row, col]; }
             set { this.values[row, col] = value; }
         }
@@ -62,6 +58,13 @@ namespace NET.Algebra
         public int NumCols { get { return values.GetLength(1); } }
         public int NumRows { get { return values.GetLength(0); } }
         public int Size { get { return values.Length; } }
+        
+        internal unsafe double *Data {
+            get {
+                fixed (double *p = this.values)
+                    return p;
+            }
+        }
         #endregion
         
         #region Methods
@@ -76,17 +79,13 @@ namespace NET.Algebra
             int width = mat.NumCols;
             int numCols = this.NumCols;
             var result = new double[numRows, width];
-            fixed (double *pRes = result, pMat1 = this.values, pMat2 = mat.values)
-            {
-                for (int y = 0; y < numRows; y++)
-                {
+            fixed (double *pRes = result, pMat1 = this.values, pMat2 = mat.values) {
+                for (int y = 0; y < numRows; y++) {
                     int i = y * numCols;
-                    for (int x = 0; x < width; x++)
-                    {
+                    for (int x = 0; x < width; x++) {
                         int j = x;
                         double res = 0d;
-                        for (int z = 0; z < numCols; z++, j += width)
-                        {
+                        for (int z = 0; z < numCols; z++, j += width) {
                             res += pMat1[i + z] * pMat2[j];
                         }
                         pRes[y * width + x] = res;
@@ -101,10 +100,8 @@ namespace NET.Algebra
             var rnd = new Random();
             double range = max - min;
             int size = this.Size;
-            fixed (double *pRes = this.values)
-            {
-                for (int i = 0; i < size; i++)
-                {
+            fixed (double *pRes = this.values) {
+                for (int i = 0; i < size; i++) {
                     pRes[i] = rnd.NextDouble() * range + min;
                 }
             }
@@ -122,10 +119,8 @@ namespace NET.Algebra
         
         public void PrintToConsole()
         {
-            for (int y = 0; y < this.NumRows; y++)
-            {
-                for (int x = 0; x < this.NumCols; x++)
-                {
+            for (int y = 0; y < this.NumRows; y++) {
+                for (int x = 0; x < this.NumCols; x++) {
                     Console.Write("{0} ", this[y, x].ToString().PadLeft(19, ' '));
                 }
                 Console.WriteLine();
@@ -137,10 +132,8 @@ namespace NET.Algebra
             int numRows = this.NumRows;
             int numCols = this.NumCols;
             var result = new double[numCols, numRows];
-            for (int y = numRows - 1; y >= 0 ; y--)
-            {
-                for (int x = 0; x < numCols; x++)
-                {
+            for (int y = numRows - 1; y >= 0; y--) {
+                for (int x = 0; x < numCols; x++) {
                     result[x, numRows - 1 - y] = this[y, x];
                 }
             }
@@ -150,10 +143,8 @@ namespace NET.Algebra
         public double Trace()
         {
             double sum = 0d;
-            for (int i = 0; i < this.NumRows; i++)
-            {
-                if (i < this.NumCols)
-                {
+            for (int i = 0; i < this.NumRows; i++) {
+                if (i < this.NumCols) {
                     sum += this[i, i];
                 }
             }
@@ -167,10 +158,8 @@ namespace NET.Algebra
         public Matrix Transpose()
         {
             var result = new double[this.NumCols, this.NumRows];
-            for (int y = 0; y < this.NumRows; y++)
-            {
-                for (int x = 0; x < this.NumCols; x++)
-                {
+            for (int y = 0; y < this.NumRows; y++) {
+                for (int x = 0; x < this.NumCols; x++) {
                     result[x, y] = this[y, x];
                 }
             }
@@ -183,10 +172,8 @@ namespace NET.Algebra
         {
             int size = mat1.Size;
             var result = new double[mat1.NumRows, mat1.NumCols];
-            fixed (double *pRes = result, pMat1 = mat1.values, pMat2 = mat2.values)
-            {
-                for (int i = 0; i < size; i++)
-                {
+            fixed (double *pRes = result, pMat1 = mat1.values, pMat2 = mat2.values) {
+                for (int i = 0; i < size; i++) {
                     pRes[i] = pMat1[i] + pMat2[i];
                 }
             }
@@ -207,10 +194,8 @@ namespace NET.Algebra
         {
             int size = mat.Size;
             var result = new double[mat.NumRows, mat.NumCols];
-            fixed (double *pRes = result, pMat = mat.values)
-            {
-                for (int i = 0; i < size; i++)
-                {
+            fixed (double *pRes = result, pMat = mat.values) {
+                for (int i = 0; i < size; i++) {
                     pRes[i] = pMat[i] + val;
                 }
             }
@@ -221,10 +206,8 @@ namespace NET.Algebra
         {
             int size = mat1.Size;
             var result = new double[mat1.NumRows, mat1.NumCols];
-            fixed (double *pRes = result, pMat1 = mat1.values, pMat2 = mat2.values)
-            {
-                for (int i = 0; i < size; i++)
-                {
+            fixed (double *pRes = result, pMat1 = mat1.values, pMat2 = mat2.values) {
+                for (int i = 0; i < size; i++) {
                     pRes[i] = pMat1[i] - pMat2[i];
                 }
             }
@@ -235,10 +218,8 @@ namespace NET.Algebra
         {
             int size = mat.Size;
             var result = new double[mat.NumRows, mat.NumCols];
-            fixed (double *pRes = result, pMat = mat.values)
-            {
-                for (int i = 0; i < size; i++)
-                {
+            fixed (double *pRes = result, pMat = mat.values) {
+                for (int i = 0; i < size; i++) {
                     pRes[i] = pMat[i] - val;
                 }
             }
@@ -249,10 +230,8 @@ namespace NET.Algebra
         {
             int size = mat.Size;
             var result = new double[mat.NumRows, mat.NumCols];
-            fixed (double *pRes = result, pMat = mat.values)
-            {
-                for (int i = 0; i < size; i++)
-                {
+            fixed (double *pRes = result, pMat = mat.values) {
+                for (int i = 0; i < size; i++) {
                     pRes[i] = val - pMat[i];
                 }
             }
@@ -263,10 +242,8 @@ namespace NET.Algebra
         {
             int size = mat1.Size;
             var result = new double[mat1.NumRows, mat1.NumCols];
-            fixed (double *pRes = result, pMat1 = mat1.values, pMat2 = mat2.values)
-            {
-                for (int i = 0; i < size; i++)
-                {
+            fixed (double *pRes = result, pMat1 = mat1.values, pMat2 = mat2.values) {
+                for (int i = 0; i < size; i++) {
                     pRes[i] = pMat1[i] * pMat2[i];
                 }
             }
@@ -287,10 +264,8 @@ namespace NET.Algebra
         {
             int size = mat.Size;
             var result = new double[mat.NumRows, mat.NumCols];
-            fixed (double *pRes = result, pMat = mat.values)
-            {
-                for (int i = 0; i < size; i++)
-                {
+            fixed (double *pRes = result, pMat = mat.values) {
+                for (int i = 0; i < size; i++) {
                     pRes[i] = pMat[i] * val;
                 }
             }
@@ -301,10 +276,8 @@ namespace NET.Algebra
         {
             int size = mat1.Size;
             var result = new double[mat1.NumRows, mat1.NumCols];
-            fixed (double *pRes = result, pMat1 = mat1.values, pMat2 = mat2.values)
-            {
-                for (int i = 0; i < size; i++)
-                {
+            fixed (double *pRes = result, pMat1 = mat1.values, pMat2 = mat2.values) {
+                for (int i = 0; i < size; i++) {
                     pRes[i] = pMat1[i] / pMat2[i];
                 }
             }
@@ -315,10 +288,8 @@ namespace NET.Algebra
         {
             int size = mat.Size;
             var result = new double[mat.NumRows, mat.NumCols];
-            fixed (double *pRes = result, pMat = mat.values)
-            {
-                for (int i = 0; i < size; i++)
-                {
+            fixed (double *pRes = result, pMat = mat.values) {
+                for (int i = 0; i < size; i++) {
                     pRes[i] = pMat[i] / val;
                 }
             }
