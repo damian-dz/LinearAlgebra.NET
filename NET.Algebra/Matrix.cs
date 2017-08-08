@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace AlgebraDotNET
+namespace NET.Algebra
 {
     public class Matrix
     {
@@ -56,7 +56,7 @@ namespace AlgebraDotNET
             set { this.values[row, col] = value; }
         }
         
-        #region Fields
+        #region Properties
         private readonly double[,] values;
         
         public int NumCols { get { return values.GetLength(1); } }
