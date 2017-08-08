@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace Algebra
 {
@@ -103,6 +102,15 @@ namespace Algebra
             fixed (double *pRes = this.values) {
                 for (int i = 0; i < size; i++) {
                     pRes[i] = rnd.NextDouble() * range + min;
+                }
+            }
+        }
+        
+        public void Identity()
+        {
+            for (int y = 0; y < this.NumRows; y++) {
+                for (int x = 0; x < this.NumCols; x++) {
+                    this[y, x] = x == y ? 1 : 0d;
                 }
             }
         }
