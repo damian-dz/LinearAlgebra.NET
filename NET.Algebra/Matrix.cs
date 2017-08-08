@@ -134,10 +134,6 @@ namespace NET.Algebra
         
         public Matrix RotateClockwise()
         {
-            if (!this.IsSquare())
-            {
-                throw new ArgumentException("The matrix must be a square matrix.");
-            }
             int numRows = this.NumRows;
             int numCols = this.NumCols;
             var result = new double[numCols, numRows];
@@ -185,13 +181,11 @@ namespace NET.Algebra
         #region Operators
         public unsafe static Matrix operator +(Matrix mat1, Matrix mat2)
         {
-            int numRows = mat1.NumRows;
-            int numCols = mat1.NumCols;
-            int length = numRows * numCols;
-            var result = new double[numRows, numCols];
+            int size = mat1.Size;
+            var result = new double[mat1.NumRows, mat1.NumCols];
             fixed (double *pRes = result, pMat1 = mat1.values, pMat2 = mat2.values)
             {
-                for (int i = 0; i < length; i++)
+                for (int i = 0; i < size; i++)
                 {
                     pRes[i] = pMat1[i] + pMat2[i];
                 }
@@ -211,10 +205,8 @@ namespace NET.Algebra
         
         private unsafe static Matrix AddValue(Matrix mat, double val)
         {
-            int numRows = mat.NumRows;
-            int numCols = mat.NumCols;
             int size = mat.Size;
-            var result = new double[numRows, numCols];
+            var result = new double[mat.NumRows, mat.NumCols];
             fixed (double *pRes = result, pMat = mat.values)
             {
                 for (int i = 0; i < size; i++)
@@ -227,13 +219,11 @@ namespace NET.Algebra
         
         public unsafe static Matrix operator -(Matrix mat1, Matrix mat2)
         {
-            int numRows = mat1.NumRows;
-            int numCols = mat1.NumCols;
-            int length = numRows * numCols;
-            var result = new double[numRows, numCols];
+            int size = mat1.Size;
+            var result = new double[mat1.NumRows, mat1.NumCols];
             fixed (double *pRes = result, pMat1 = mat1.values, pMat2 = mat2.values)
             {
-                for (int i = 0; i < length; i++)
+                for (int i = 0; i < size; i++)
                 {
                     pRes[i] = pMat1[i] - pMat2[i];
                 }
@@ -243,13 +233,11 @@ namespace NET.Algebra
         
         public unsafe static Matrix operator -(Matrix mat, double val)
         {
-            int numRows = mat.NumRows;
-            int numCols = mat.NumCols;
-            int length = numRows * numCols;
-            var result = new double[numRows, numCols];
+            int size = mat.Size;
+            var result = new double[mat.NumRows, mat.NumCols];
             fixed (double *pRes = result, pMat = mat.values)
             {
-                for (int i = 0; i < length; i++)
+                for (int i = 0; i < size; i++)
                 {
                     pRes[i] = pMat[i] - val;
                 }
@@ -259,13 +247,11 @@ namespace NET.Algebra
         
         public unsafe static Matrix operator -(double val, Matrix mat)
         {
-            int numRows = mat.NumRows;
-            int numCols = mat.NumCols;
-            int length = numRows * numCols;
-            var result = new double[numRows, numCols];
+            int size = mat.Size;
+            var result = new double[mat.NumRows, mat.NumCols];
             fixed (double *pRes = result, pMat = mat.values)
             {
-                for (int i = 0; i < length; i++)
+                for (int i = 0; i < size; i++)
                 {
                     pRes[i] = val - pMat[i];
                 }
@@ -275,13 +261,11 @@ namespace NET.Algebra
         
         public unsafe static Matrix operator *(Matrix mat1, Matrix mat2)
         {
-            int numRows = mat1.NumRows;
-            int numCols = mat1.NumCols;
-            int length = numRows * numCols;
-            var result = new double[numRows, numCols];
+            int size = mat1.Size;
+            var result = new double[mat1.NumRows, mat1.NumCols];
             fixed (double *pRes = result, pMat1 = mat1.values, pMat2 = mat2.values)
             {
-                for (int i = 0; i < length; i++)
+                for (int i = 0; i < size; i++)
                 {
                     pRes[i] = pMat1[i] * pMat2[i];
                 }
@@ -301,10 +285,8 @@ namespace NET.Algebra
         
         private unsafe static Matrix MyltiplyByValue(Matrix mat, double val)
         {
-            int numRows = mat.NumRows;
-            int numCols = mat.NumCols;
             int size = mat.Size;
-            var result = new double[numRows, numCols];
+            var result = new double[mat.NumRows, mat.NumCols];
             fixed (double *pRes = result, pMat = mat.values)
             {
                 for (int i = 0; i < size; i++)
@@ -317,10 +299,8 @@ namespace NET.Algebra
         
         public unsafe static Matrix operator /(Matrix mat1, Matrix mat2)
         {
-            int numRows = mat1.NumRows;
-            int numCols = mat1.NumCols;
             int size = mat1.Size;
-            var result = new double[numRows, numCols];
+            var result = new double[mat1.NumRows, mat1.NumCols];
             fixed (double *pRes = result, pMat1 = mat1.values, pMat2 = mat2.values)
             {
                 for (int i = 0; i < size; i++)
@@ -333,13 +313,11 @@ namespace NET.Algebra
         
         public unsafe static Matrix operator /(Matrix mat, double val)
         {
-            int numRows = mat.NumRows;
-            int numCols = mat.NumCols;
-            int length = numRows * numCols;
-            var result = new double[numRows, numCols];
+            int size = mat.Size;
+            var result = new double[mat.NumRows, mat.NumCols];
             fixed (double *pRes = result, pMat = mat.values)
             {
-                for (int i = 0; i < length; i++)
+                for (int i = 0; i < size; i++)
                 {
                     pRes[i] = pMat[i] / val;
                 }
