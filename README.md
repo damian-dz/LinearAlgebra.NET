@@ -4,6 +4,7 @@ This simple library should provide basic functionality for solving some of the c
 
 ## Matrices
 In order to create a new Matrix object, you can type:
+<<<<<<< HEAD
 ```c#
 var mat = new Matrix(3, 4);
 ```
@@ -13,6 +14,13 @@ Console.WriteLine("Number of rows:" + mat.NumRows);
 Console.WriteLine("Number of colums:" + mat.NumCols);
 ```
 If you want to fill it with random numbers from a specific interval instead, use:
+=======
+
+```c#
+var mat = new Matrix(3, 4);
+```
+This will create a zero matrix consisting of 3 rows and 4 columns. If you want to fill it with random numbers from a specific interval instead, use:
+>>>>>>> 4642589e07680fca58c3120167b96c403bce0a15
 ```c#
 mat.FillWithRandomValues(-1, 1);
 ```
