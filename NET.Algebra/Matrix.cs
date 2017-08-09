@@ -57,7 +57,7 @@ namespace Algebra
         public int NumCols { get { return values.GetLength(1); } }
         public int NumRows { get { return values.GetLength(0); } }
         public int Size { get { return values.Length; } }
-        
+        // Provides a fixed-memory pointer to the underlying data.
         internal unsafe double *Data {
             get {
                 fixed (double *p = this.values)
@@ -260,15 +260,15 @@ namespace Algebra
         
         public static Matrix operator *(Matrix mat, double val)
         {
-            return MyltiplyByValue(mat, val);
+            return MultiplyByValue(mat, val);
         }
         
         public static Matrix operator *(double val, Matrix mat)
         {
-            return MyltiplyByValue(mat, val);
+            return MultiplyByValue(mat, val);
         }
         
-        private unsafe static Matrix MyltiplyByValue(Matrix mat, double val)
+        private unsafe static Matrix MultiplyByValue(Matrix mat, double val)
         {
             int size = mat.Size;
             var result = new double[mat.NumRows, mat.NumCols];
