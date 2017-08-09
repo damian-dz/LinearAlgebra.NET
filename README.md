@@ -5,7 +5,7 @@ This simple library should provide basic functionality for solving some of the c
 ## Matrices
 In order to create a new Matrix object, you can type:
 
-```
+```c#
 var mat = new Matrix(3, 4);
 ```
 
