@@ -4,23 +4,22 @@ This simple library should provide basic functionality for solving some of the c
 
 ## Matrices
 In order to create a new Matrix object, you can type:
-<<<<<<< HEAD
 ```c#
 var mat = new Matrix(3, 4);
 ```
-This will create a zero matrix consisting of 3 rows and 4 columns. You can verify that by calling:
+This will create a 12-element zero matrix consisting of 3 rows and 4 columns. You can verify that by calling:
 ```c#
-Console.WriteLine("Number of rows:" + mat.NumRows);
-Console.WriteLine("Number of colums:" + mat.NumCols);
+Console.WriteLine("Number of rows: " + mat.NumRows);
+Console.WriteLine("Number of colums: " + mat.NumCols);
+Console.WriteLine("Number of elements: " + mat.Size);
+```
+Output:
+```
+Number of rows: 3
+Number of colums: 4
+Number of elements: 12
 ```
 If you want to fill it with random numbers from a specific interval instead, use:
-=======
-
-```c#
-var mat = new Matrix(3, 4);
-```
-This will create a zero matrix consisting of 3 rows and 4 columns. If you want to fill it with random numbers from a specific interval instead, use:
->>>>>>> 4642589e07680fca58c3120167b96c403bce0a15
 ```c#
 mat.FillWithRandomValues(-1, 1);
 ```
