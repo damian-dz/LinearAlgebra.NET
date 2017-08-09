@@ -131,6 +131,36 @@ namespace Algebra
             }
         }
         
+        public unsafe Matrix FlipHorizontally()
+        {
+            int numRows = this.NumRows;
+            int numCols = this.NumCols;
+            var result = new double[numRows, numCols];
+            fixed (double *pRes = result, pMat = this.values) {
+                for (int y = 0; y < numRows; y++) {
+                    for (int x = 0; x < numCols; x++) {
+                        pRes[y * numCols + x] = pMat[(y * numCols) + numCols - 1 - x];
+                    }
+                }
+            }
+            return new Matrix(result);
+        }
+        
+        public unsafe Matrix FlipVertically()
+        {
+            int numRows = this.NumRows;
+            int numCols = this.NumCols;
+            var result = new double[numRows, numCols];
+            fixed (double *pRes = result, pMat = this.values) {
+                for (int y = 0; y < numRows; y++) {
+                    for (int x = 0; x < numCols; x++) {
+                        pRes[y * numCols + x] = pMat[(numRows - 1 - y) * numCols + x];
+                    }
+                }
+            }
+            return new Matrix(result);
+        }
+        
         public void Identity()
         {
             for (int y = 0; y < this.NumRows; y++) {
