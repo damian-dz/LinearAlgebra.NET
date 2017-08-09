@@ -14,6 +14,17 @@ namespace Algebra
             }
         }
         
+        public unsafe Matrix(double[] array, int width)
+        {
+            int numRows = Utils.RoundUp(array.Length, width) / width;
+            this.values = new double[numRows, width];
+            fixed (double *pRes = this.values) {
+                for (int i = 0; i < array.Length; i++) {
+                    pRes[i] = array[i];
+                }
+            }
+        }
+        
         public Matrix(int[] array)
         {
             this.values = new double[1, array.Length];
@@ -22,17 +33,31 @@ namespace Algebra
             }
         }
         
+        public unsafe Matrix(int[] array, int width)
+        {
+            int numRows = Utils.RoundUp(array.Length, width) / width;
+            this.values = new double[numRows, width];
+            fixed (double *pRes = this.values) {
+                for (int i = 0; i < array.Length; i++) {
+                    pRes[i] = array[i];
+                }
+            }
+        }
+        
         public Matrix(double[,] array)
         {
             this.values = array;
         }
         
-        public Matrix(int[,] array)
+        public unsafe Matrix(int[,] array)
         {
             this.values = new double[array.GetLength(0), array.GetLength(1)];
-            for (int y = 0; y < this.NumRows; y++) {
-                for (int x = 0; x < this.NumCols; x++) {
-                    this[y, x] = array[y, x];
+            int size = this.Size;
+            fixed (double *pRes = this.values) {
+                fixed (int *pArr = array) {
+                    for (int i = 0; i < size; i++) {
+                        pRes[i] = pArr[i];
+                    }
                 }
             }
         }
@@ -135,6 +160,10 @@ namespace Algebra
             }
         }
         
+        /// <summary>
+        /// Rotates the current matrix clockwise by 90 degrees.
+        /// </summary>
+        /// <returns>The rotated matrix.</returns>
         public Matrix RotateClockwise()
         {
             int numRows = this.NumRows;

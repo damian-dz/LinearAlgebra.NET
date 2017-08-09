@@ -32,16 +32,6 @@ namespace Algebra
             }
         }
         
-        public static double DegToRad(double deg)
-        {
-            return deg / 180 * Math.PI;
-        }
-        
-        public static double RadToDeg(double rad)
-        {
-            return rad * 180 / Math.PI;
-        }
-        
         public double Dot(Vector2D vec)
         {
             return this.X * vec.X + this.Y * vec.Y;
