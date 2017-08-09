@@ -25,7 +25,7 @@ It is also possible to initialize a Matrix with a flat (1-D) array if we specify
 ```c#
 var mat = new Matrix(new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 }, 4);
 ```
-If the length of the flat array is not a multiple of the specified width, all the remaining elements will be zeros:
+If the length of the flat array is not a multiple of the specified width, all the remaining elements will default to zeros:
 ```c#
 var mat = new Matrix(new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, 4);
 ```
