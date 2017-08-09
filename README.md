@@ -14,10 +14,6 @@ Console.WriteLine("Number of colums: " + mat.NumCols);
 ```
 If you want to fill it with random numbers from a specific interval instead, use:
 ```c#
-var mat = new Matrix(3, 4);
-```
-This will create a zero matrix consisting of 3 rows and 4 columns. If you want to fill it with random numbers from a specific interval instead, use:
-```c#
 mat.FillWithRandomValues(-1, 1);
 ```
 Alternatively, you can initialize a Matrix object with an existing array of double-precision values or integers:
