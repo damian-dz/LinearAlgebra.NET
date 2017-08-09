@@ -12,7 +12,7 @@ This will create a zero matrix consisting of 3 rows and 4 columns. If you want t
 ```c#
 mat.FillWithRandomValues(-1, 1);
 ```
-You can initialize a Matrix object with an array of double-precision values:
+You can initialize a Matrix object with an array of double-precision values or integers:
 ```c#
 double[,] arr = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 10, 11, 12 } };
 var mat = new Matrix(arr);
