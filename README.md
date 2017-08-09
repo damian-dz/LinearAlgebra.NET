@@ -21,6 +21,10 @@ var mat = new Matrix(arr);
 ```c#
 var mat = new Matrix(new[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 10, 11, 12 } });
 ```
+It is also possible to initialize a Matrix with a flat (1-D) array if we specify the target width (number of columns):
+```c#
+var mat = new Matrix(new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 }, 4);
+```
 
 ### Resources:  
 * Passos, WD. *Numerical Methods, Algorithms and Tools in C#*. CRC Press, Inc., 2009  
