@@ -18,7 +18,7 @@ double[,] arr = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 10, 11, 12 } };
 var mat = new Matrix(arr);
 ```
 
-### Resources used:  
+### Resources:  
 * Passos, WD. *Numerical Methods, Algorithms and Tools in C#*. CRC Press, Inc., 2009  
 * http://dev.bratched.fr/en/fun-with-matrix-multiplication-and-unsafe-code/  
 * https://stackoverflow.com/questions/3407012/c-rounding-up-to-the-nearest-multiple-of-a-number
