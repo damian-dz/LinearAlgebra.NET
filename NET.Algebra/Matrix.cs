@@ -177,6 +177,11 @@ namespace Algebra
             return new Matrix(result);
         }
         
+        public double[,] ToArray()
+        {
+            return this.values;
+        }
+        
         public double Trace()
         {
             double sum = 0d;
