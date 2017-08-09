@@ -1,6 +1,6 @@
 # NET.Algebra
 
-This simple library provides basic functionality for solving some of the common algebra problems. At the moment, it focuses mostly on matrices.
+This simple library should provide basic functionality for solving some of the common algebra problems. At the moment, it focuses mostly on matrices.
 
 Resources used:  
 * Passos, WD. *Numerical Methods, Algorithms and Tools in C#*. CRC Press, Inc., 2009  
