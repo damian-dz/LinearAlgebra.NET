@@ -11,7 +11,7 @@ var mat = new Matrix(3, 4);
 This will create a zero matrix consisting of 3 rows and 4 columns. If you want to fill it with random numbers from a specific interval instead, use:
 
 ```c#
-mat.FillWithRandomValues();
+mat.FillWithRandomValues(-1, 1);
 ```
 
 Resources used:  
