@@ -17,6 +17,10 @@ You can initialize a Matrix object with an array of double-precision values or i
 double[,] arr = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 10, 11, 12 } };
 var mat = new Matrix(arr);
 ```
+... or directly within the constuctor call:
+```c#
+var mat = new Matrix(new[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 10, 11, 12 } });
+```
 
 ### Resources:  
 * Passos, WD. *Numerical Methods, Algorithms and Tools in C#*. CRC Press, Inc., 2009  
