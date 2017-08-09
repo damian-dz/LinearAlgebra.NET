@@ -31,7 +31,7 @@ var mat = new Matrix(new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, 4);
 ```
 In the case shown above, the last two elemens of the matrix will be zeros.
 
-### Resources:  
+## Resources:  
 * Passos, WD. *Numerical Methods, Algorithms and Tools in C#*. CRC Press, Inc., 2009  
 * http://dev.bratched.fr/en/fun-with-matrix-multiplication-and-unsafe-code/  
 * https://stackoverflow.com/questions/3407012/c-rounding-up-to-the-nearest-multiple-of-a-number
