@@ -1,4 +1,4 @@
-# NET.Algebra
+# LinearAlgebra.NET
 
 This simple library should provide basic functionality for solving some of the common algebra problems. At the moment, it focuses mostly on matrices.
 
