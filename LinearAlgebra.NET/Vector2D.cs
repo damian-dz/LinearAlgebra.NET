@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Algebra
+namespace LinearAlgebra
 {
     public class Vector2D
     {

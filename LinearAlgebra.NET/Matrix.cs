@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Algebra
+namespace LinearAlgebra
 {
     public class Matrix
     {
@@ -79,6 +84,7 @@ namespace Algebra
         #region Properties
         private readonly double[,] values;
         
+        public int ByteCount { get { return values.Length * sizeof(double); } }
         public int NumCols { get { return values.GetLength(1); } }
         public int NumRows { get { return values.GetLength(0); } }
         public int Size { get { return values.Length; } }
@@ -92,6 +98,26 @@ namespace Algebra
         #endregion
         
         #region Methods
+        public unsafe void AllOnes()
+        {
+            int size = this.Size;
+            fixed (double *pRes = this.values) {
+                for (int i = 0; i < size; i++) {
+                    pRes[i] = 1d;
+                }
+            }
+        }
+        
+        public unsafe void AllZeros()
+        {
+            int size = this.Size;
+            fixed (double *pRes = this.values) {
+                for (int i = 0; i < size; i++) {
+                    pRes[i] = 0d;
+                }
+            }
+        }
+        
         /// <summary>
         /// Computes the product of the current matrix and another matrix.
         /// </summary>
@@ -161,6 +187,43 @@ namespace Algebra
             return new Matrix(result);
         }
         
+        public static Matrix FromCSV(string filename)
+        {
+            string[] lines = File.ReadAllLines(filename);
+            string[] line = lines[0].Split(',');
+            int numRows = lines.Length;
+            int numCols = line.Length;
+            var result = new double[numRows, numCols];
+            for (int x = 0; x < numCols; x++) {
+                result[0, x] = double.Parse(line[x]);
+            }
+            for (int y = 1; y < numRows; y++) {
+                line = lines[y].Split(',');
+                for (int x = 0; x < numCols; x++) {
+                    result[y, x] = double.Parse(line[x]);
+                }
+            }
+            return new Matrix(result);
+        }
+        
+        public unsafe static Matrix FromIndexedBitmap(Bitmap bmp)
+        {
+            int width = bmp.Width;
+            int height = bmp.Height;
+            var result = new double[height, width];
+            var rect = new Rectangle(0, 0, width, height);
+            BitmapData bmpData = bmp.LockBits(rect, ImageLockMode.ReadOnly, bmp.PixelFormat);
+            int padding = bmpData.Stride - width;
+            var bmpPtr = (byte *)bmpData.Scan0;
+            for (int y = 0; y < height; y++, bmpPtr += padding) {
+                for (int x = 0; x < width; x++, bmpPtr++) {
+                    result[y, x] = bmpPtr[0];
+                }
+            }
+            bmp.UnlockBits(bmpData);
+            return new Matrix(result);
+        }
+        
         public void Identity()
         {
             for (int y = 0; y < this.NumRows; y++) {
@@ -180,11 +243,39 @@ namespace Algebra
             return this.NumRows == this.NumCols;
         }
         
-        public void PrintToConsole()
+        public void LoadRowFromArray(int row, double[] data)
+        {
+            int length = data.Length;
+            for (int i = 0; i < length; i++) {
+                this[row, i] = data[i];
+            }
+        }
+        
+        public delegate double Method(double x);
+        
+        /// <summary>
+        /// Iterates over the current matrix
+        /// and applies the specified method to each of its elements.
+        /// </summary>
+        /// <param name="method">A method that accepts and returns a double.</param>
+        /// <returns>The modified matrix.</returns>
+        public unsafe Matrix LoopThroughElements(Method method)
+        {
+            int size = this.Size;
+            var result = new double[this.NumRows, this.NumCols];
+            fixed (double *pRes = result, pMat = this.values) {
+                for (int i = 0; i < size; i++) {
+                    pRes[i] = method(pMat[i]);
+                }
+            }
+            return new Matrix(result);
+        }
+        
+        public void PrintToConsole(int padding = 19)
         {
             for (int y = 0; y < this.NumRows; y++) {
                 for (int x = 0; x < this.NumCols; x++) {
-                    Console.Write("{0} ", this[y, x].ToString().PadLeft(19, ' '));
+                    Console.Write("{0} ", this[y, x].ToString().PadLeft(padding, ' '));
                 }
                 Console.WriteLine();
             }
@@ -212,6 +303,60 @@ namespace Algebra
             return this.values;
         }
         
+        public void ToCSV(string filename)
+        {
+            int numRows = this.NumRows;
+            int numCols = this.NumCols;
+            using (var writer = new StreamWriter(filename)) {
+                string line = null;
+                for (int x = 0; x < numCols; x++) {
+                    line += this[0, x];
+                    if (x != numCols - 1) {
+                        line += ",";
+                    }
+                }
+                writer.Write(line);
+                line = null;
+                for (int y = 1; y < numRows; y++) {
+                    for (int x = 0; x < numCols; x++) {
+                        line += this[y, x];
+                        if (x != numCols - 1) {
+                            line += ",";
+                        }
+                    }
+                    writer.Write(Environment.NewLine);
+                    writer.Write(line);
+                    line = null;
+                }
+            }
+        }
+        
+        public unsafe Bitmap ToGrayscaleBitmap()
+        {
+            int width = this.NumCols;
+            int height = this.NumRows;
+            var bmpGray = new Bitmap(width, height, PixelFormat.Format8bppIndexed);
+            var rect = new Rectangle(0, 0, width, height);
+            var bmpData = bmpGray.LockBits(rect, ImageLockMode.WriteOnly, bmpGray.PixelFormat);
+            int padding = bmpData.Stride - width;
+            var bmpPtr = (byte *)bmpData.Scan0;
+            fixed (double *pMat = this.values) {
+                for (int y = 0; y < height; y++, bmpPtr += padding) {
+                    for (int x = 0; x < width; x++, bmpPtr++) {
+                        bmpPtr[0] = Convert.ToByte(pMat[y * width + x]);
+                    }
+                }
+            }
+            bmpGray.UnlockBits(bmpData);
+            var palette = bmpGray.Palette;
+            Color[] entries = palette.Entries;
+            for (int i = 0; i < 256; i++) {
+                entries[i] = Color.FromArgb(i, i, i);
+            }
+            bmpGray.Palette = palette;
+            return bmpGray;
+        }
+        
         public double Trace()
         {
             double sum = 0d;
@@ -227,12 +372,16 @@ namespace Algebra
         /// Computes the transpose of the current matrix.
         /// </summary>
         /// <returns>A matrix that is the transpose of the input matrix.</returns>
-        public Matrix Transpose()
+        public unsafe Matrix Transpose()
         {
-            var result = new double[this.NumCols, this.NumRows];
-            for (int y = 0; y < this.NumRows; y++) {
-                for (int x = 0; x < this.NumCols; x++) {
-                    result[x, y] = this[y, x];
+            int numRows = this.NumRows;
+            int numCols = this.NumCols;
+            var result = new double[numCols, numRows];
+            fixed (double *pRes = result, pMat = this.values) {
+                for (int y = 0; y < numRows; y++) {
+                    for (int x = 0; x < numCols; x++) {
+                        pRes[x * numRows + y] = pMat[y * numCols + x];
+                    }
                 }
             }
             return new Matrix(result);
@@ -363,6 +512,18 @@ namespace Algebra
             fixed (double *pRes = result, pMat = mat.values) {
                 for (int i = 0; i < size; i++) {
                     pRes[i] = pMat[i] / val;
+                }
+            }
+            return new Matrix(result);
+        }
+        
+        public unsafe static Matrix operator /(double val, Matrix mat)
+        {
+            int size = mat.Size;
+            var result = new double[mat.NumRows, mat.NumCols];
+            fixed (double *pRes = result, pMat = mat.values) {
+                for (int i = 0; i < size; i++) {
+                    pRes[i] = val / pMat[i];
                 }
             }
             return new Matrix(result);

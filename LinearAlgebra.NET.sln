@@ -4,7 +4,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # SharpDevelop 5.1
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NET.Algebra", "NET.Algebra\NET.Algebra.csproj", "{46BD047E-9625-491E-A707-8C24EF5490BD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinearAlgebra.NET", "LinearAlgebra.NET\LinearAlgebra.NET.csproj", "{46BD047E-9625-491E-A707-8C24EF5490BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
