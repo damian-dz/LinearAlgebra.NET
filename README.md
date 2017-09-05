@@ -1,6 +1,6 @@
 # LinearAlgebra.NET
 
-This simple library should provide basic functionality for solving some of the common algebra problems. At the moment, it focuses mostly on matrices.
+This library is intended to provide basic functionality for solving some of the common algebra problems. At the moment, it focuses mostly on matrices.
 
 ## Matrices
 In order to create a new Matrix object, you can type:
