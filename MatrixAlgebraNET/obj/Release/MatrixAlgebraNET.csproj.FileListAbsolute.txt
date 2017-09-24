@@ -1,0 +1,3 @@
+C:\Users\Damian\Documents\SharpDevelop Projects\MatrixAlgebraNET\MatrixAlgebraNET\bin\Release\MatrixAlgebraNET.dll
+C:\Users\Damian\Documents\SharpDevelop Projects\MatrixAlgebraNET\MatrixAlgebraNET\obj\Release\MatrixAlgebraNET.dll
+C:\Users\Damian\Documents\SharpDevelop Projects\MatrixAlgebraNET\MatrixAlgebraNET\obj\Release\MatrixAlgebraNET.csprojResolveAssemblyReference.cache
