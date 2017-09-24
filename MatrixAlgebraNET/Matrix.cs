@@ -228,7 +228,7 @@
         {
             string format = Utils.ProvideStringFormat(numDecimalPlaces);
             for (int y = 0; y < this.NumRows - 1; y++) {
-                Console.Write("{0}", this[y, colIndex].ToString(format).PadLeft(padding, ' ') + Environment.NewLine);
+                Console.WriteLine("{0}", this[y, colIndex].ToString(format).PadLeft(padding, ' '));
             }
             Console.Write("{0}", this[this.NumRows - 1, colIndex].ToString(format).PadLeft(padding, ' '));
         }
