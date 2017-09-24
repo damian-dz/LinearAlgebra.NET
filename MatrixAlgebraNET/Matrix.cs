@@ -39,6 +39,36 @@
             this.TotalSize = numRows * numCols;
         }
         
+        public unsafe Matrix(int[] values, int numCols)
+        {
+            int numRows = Utils.RoundUp(values.Length, numCols) / numCols;
+            this.values = new double[numRows, numCols];
+            fixed (double *pThis = this.values) {
+                for (int i = 0; i < values.Length; i++) {
+                    pThis[i] = values[i];
+                }
+            }
+            this.NumRows = numRows;
+            this.NumCols = numCols;
+            this.TotalSize = numRows * numCols;
+        }
+        
+        public unsafe Matrix(int[,] values, int numCols)
+        {
+            int numRows = Utils.RoundUp(values.Length, numCols) / numCols;
+            this.values = new double[numRows, numCols];
+            fixed (double *pThis = this.values) {
+                fixed (int *pValues = values) {
+                    for (int i = 0; i < values.Length; i++) {
+                        pThis[i] = pValues[i];
+                    }
+                }
+            }
+            this.NumRows = values.GetLength(0);
+            this.NumCols = values.GetLength(1);
+            this.TotalSize = this.NumRows * this.NumCols;
+        }
+        
         public double[,] values;
         
         public int NumRows { get; private set; }

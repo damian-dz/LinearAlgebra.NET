@@ -1,8 +1,7 @@
-# LinearAlgebra.NET
+# MatrixAlgebraNET
 
-This library is intended to provide basic functionality for solving some of the common algebra problems. At the moment, it focuses mostly on matrices.
+This library is intended to provide basic functionality for solving some of the common matrix algebra problems.
 
-## Matrices
 In order to create a new Matrix object, you can type:
 ```c#
 var mat = new Matrix(3, 4);
@@ -11,7 +10,7 @@ This will create a 12-element zero matrix consisting of 3 rows and 4 columns. Yo
 ```c#
 Console.WriteLine("Number of rows: " + mat.NumRows);
 Console.WriteLine("Number of colums: " + mat.NumCols);
-Console.WriteLine("Number of elements: " + mat.Size);
+Console.WriteLine("Number of elements: " + mat.TotalSize);
 ```
 Output:
 ```
