@@ -267,6 +267,14 @@
             }
         }
         
+        public Matrix Reshape(int numCols)
+        {
+            int numRows = Utils.RoundUp(this.TotalSize, numCols) / numCols;
+            var result = new Matrix(numRows, numCols);
+            Buffer.BlockCopy(this.values, 0, result.values, 0, this.ByteCount);
+            return result;
+        }
+        
         /// <summary>
         /// Converts the current double-precision matrix to a single-precision one.
         /// </summary>
@@ -325,6 +333,11 @@
         }
         
         #region Operators
+        public static implicit operator Matrix(MatrixF mat)
+        {
+            return mat.ToMatrix();
+        }
+                
         public unsafe static Matrix operator +(Matrix mat1, Matrix mat2)
         {
             var result = new Matrix(mat1.NumRows, mat1.NumCols);
